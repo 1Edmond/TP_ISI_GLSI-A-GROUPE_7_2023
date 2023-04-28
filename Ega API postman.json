@@ -1,0 +1,552 @@
+{
+	"info": {
+		"_postman_id": "a7828228-5ddd-42c2-a8c2-4750b4ad2bed",
+		"name": "Ega API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Comptes",
+			"item": [
+				{
+					"name": "Ajouter un compte",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idClient\" : 1,\r\n    \"typeCompte\" : \"COURANT\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/api/comptes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"comptes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modifier un compte",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"typeCompte\" : \"EPARGNE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/api/comptes/CFQ@FW0HW23",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"comptes",
+								"CFQ@FW0HW23"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Faire dépôt",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"numCompte\" : \"efokeoek\",\r\n    \"solde\" : 50000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/api/comptes/crediter",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"comptes",
+								"crediter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Faire retrait",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"numCompte\" : \"efokeoek\",\r\n    \"solde\" : 50000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/api/comptes/debiter",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"comptes",
+								"debiter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lister les comptes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/api/comptes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"comptes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lister par solde",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/api/comptes/solde/2000",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"comptes",
+								"solde",
+								"2000"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lister par type de compte",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/api/comptes/typeCompte/COURANT",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"comptes",
+								"typeCompte",
+								"COURANT"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Liste par date de création",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/api/comptes/dateCreation/2023-04-19T10:55:55",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"comptes",
+								"dateCreation",
+								"2023-04-19T10:55:55"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Liste par client",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/api/comptes/client/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"comptes",
+								"client",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Faire virement",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"numCompteEmetteur\" : \"efokeoek\",\r\n    \"numCompteRecepteur\" : \"efokeoek\",\r\n    \"solde\" : 50000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/api/comptes/virement",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"comptes",
+								"virement"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Clients",
+			"item": [
+				{
+					"name": "Ajouter un client",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nom\" : \"Honyiglo\",\r\n    \"prenom\" : \"Wilfried\",\r\n    \"adresse\" : \"Lomé\",\r\n    \"telephone\" : \"92 08 70 70\",\r\n    \"mail\" : \"byfaidwilly@gmail.com\",\r\n    \"nationalite\" : \"Togolaise\",\r\n    \"sexe\" : \"MASCULIN\",\r\n    \"dateNaissance\" : \"2023-04-19T10:55:55\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/api/clients",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"clients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modifier un client",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"dateNaissance\" : \"2023-01-19\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/api/clients/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"clients",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Supprimer un client",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/api/clients/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"clients",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lister les client",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/api/clients",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"clients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lister les clients par nom",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/api/clients/nom/vdvd",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"clients",
+								"nom",
+								"vdvd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lister les clients par prénom",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/api/clients/prenom/vdvd",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"clients",
+								"prenom",
+								"vdvd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LIster les clients par adresse",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/api/clients/adresse/vdvd",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"clients",
+								"adresse",
+								"vdvd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lister les clients par téléphone",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/api/clients/telephone/vdvd",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"clients",
+								"telephone",
+								"vdvd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lister les clients par mail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/api/clients/mail/vdvd",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"clients",
+								"mail",
+								"vdvd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lister les clients par nationalite",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/api/clients/nationalite/vdvd",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"clients",
+								"nationalite",
+								"vdvd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lister les clients par date de naissance",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/api/clients/dateNaissance/2023-04-19T10:55:55",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"clients",
+								"dateNaissance",
+								"2023-04-19T10:55:55"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lister les comptes d'un client",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/api/clients/comptes/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"clients",
+								"comptes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
