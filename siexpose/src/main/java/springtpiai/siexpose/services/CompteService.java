@@ -8,13 +8,15 @@ import springtpiai.siexpose.allEnums.TypeCompte;
 import springtpiai.siexpose.models.Compte;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import springtpiai.siexpose.myExceptions.SoldeNegativeException;
 import springtpiai.siexpose.records.VirementCompteResponse;
-import springtpiai.siexpose.repositorys.ClientRepository;
-import springtpiai.siexpose.repositorys.CompteRepository;
+import springtpiai.siexpose.repositories.ClientRepository;
+import springtpiai.siexpose.repositories.CompteRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class CompteService {
@@ -39,48 +41,68 @@ public class CompteService {
         if(optionalClient.isEmpty())
             throw  new InvalideNumeroClientException(clientId);
         var client = optionalClient.get();
-        String numCompte = compteRepository.count()
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ&~#@";
+        var temp = new Random().nextInt(characters.length());
+        StringBuilder numCompteBuilder = new StringBuilder();
+        while (numCompteBuilder.length() <= 5){
+            numCompteBuilder.append(characters.charAt(temp));
+            temp = new Random().nextInt(characters.length());
+        }
+        String numCompte = numCompteBuilder.toString();
+        numCompte += compteRepository.count()
                 + client.getNom().substring(0,1)
-                + client.getPrenom().substring(0,1)
+                + client.getPrenom().charAt(0)
                 + String.valueOf(client.getDateNaissance().getYear()).substring(2,4);
         Optional<Compte> optionalCompte = getOneCompte(numCompte);
         if(optionalCompte.isPresent())
-            generateNumCompte(clientId);
-        return  numCompte;
+          return generateNumCompte(clientId);
+        return numCompte;
     }
     public Compte updateCompte(String numCompte, Compte compte) throws InvalideNumCompteException {
         Optional<Compte> optionalCompte = getOneCompte(numCompte);
         if(optionalCompte.isEmpty())
-            throw  new InvalideNumCompteException(numCompte);
-        compte.setNumCompte(numCompte);
-        return compteRepository.save(compte);
+            throw new InvalideNumCompteException(numCompte);
+        var oldCompte = optionalCompte.get();
+
+        /*  if(compte.getSolde() < 0)
+            throw new SoldeNegativeException(); */
+        if(compte.getTypeCompte() != null && compte.getTypeCompte() != oldCompte.getTypeCompte())
+            oldCompte.setTypeCompte(compte.getTypeCompte());
+        //compte.setNumCompte(numCompte);
+        return compteRepository.save(oldCompte);
     }
     public void deleteCompte(String numCompte){
         compteRepository.deleteById(numCompte);
     }
-    public Compte debiterCompte(String numCompte, float solde) throws InvalideNumCompteException {
-       Optional<Compte> optionalCompte = getOneCompte(numCompte);
+    public Compte debiterCompte(String numCompte, float solde) throws InvalideNumCompteException, SoldeNegativeException, SoldeInsufisantException {
+        Optional<Compte> optionalCompte = getOneCompte(numCompte);
         if(optionalCompte.isEmpty())
             throw  new InvalideNumCompteException(numCompte);
+        Compte cpt = optionalCompte.get();
+        if(solde < 0)
+            throw  new SoldeNegativeException();
+        if(cpt.getSolde() >= solde){
+            cpt.setSolde(cpt.getSolde() - solde);
+            compteRepository.save(cpt);
+            return cpt;
+        }
+        else
+            throw new SoldeInsufisantException(numCompte);
+
+
+    }
+    public Compte crediterCompte(String numCompte, float solde) throws InvalideNumCompteException, SoldeNegativeException {
+        Optional<Compte> optionalCompte = getOneCompte(numCompte);
+        if(optionalCompte.isEmpty())
+            throw  new InvalideNumCompteException(numCompte);
+        if(solde < 0 )
+            throw new SoldeNegativeException();
         Compte cpt = optionalCompte.get();
         cpt.setSolde(cpt.getSolde() + solde);
         compteRepository.save(cpt);
         return cpt;
     }
-    public Compte crediterCompte(String numCompte, float solde) throws InvalideNumCompteException, SoldeInsufisantException {
-        Optional<Compte> optionalCompte = getOneCompte(numCompte);
-        if(optionalCompte.isEmpty())
-            throw  new InvalideNumCompteException(numCompte);
-        Compte cpt = optionalCompte.get();
-        if(cpt.getSolde() >= solde){
-            cpt.setSolde(cpt.getSolde() - solde);
-            compteRepository.save(cpt);
-            return  cpt;
-        }
-        else
-            throw new SoldeInsufisantException(numCompte);
-    }
-    public VirementCompteResponse faireVirement(String numCompteEmetteur, String numCompteRecepteur, float solde) throws SoldeInsufisantException, InvalideNumCompteException {
+    public VirementCompteResponse faireVirement(String numCompteEmetteur, String numCompteRecepteur, float solde) throws SoldeInsufisantException, InvalideNumCompteException, SoldeNegativeException {
         var emt = this.crediterCompte(numCompteEmetteur, solde);
         var rcp = this.debiterCompte(numCompteRecepteur, solde);
         return  new VirementCompteResponse(emt, rcp, solde);

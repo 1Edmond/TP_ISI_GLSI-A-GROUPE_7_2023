@@ -23,7 +23,6 @@ public class Client {
     String nom, prenom, adresse, telephone, mail, nationalite;
     Sexe sexe;
     LocalDate dateNaissance;
-
     @OneToMany(targetEntity = Compte.class,cascade = CascadeType.ALL)
     @JoinColumn(name ="idClient",referencedColumnName = "id")
     List<Compte> Comptes;

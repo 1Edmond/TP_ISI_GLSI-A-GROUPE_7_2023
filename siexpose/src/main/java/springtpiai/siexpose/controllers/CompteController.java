@@ -9,6 +9,7 @@ import springtpiai.siexpose.myExceptions.InvalideNumeroClientException;
 import springtpiai.siexpose.myExceptions.SoldeInsufisantException;
 import springtpiai.siexpose.allEnums.TypeCompte;
 import springtpiai.siexpose.models.Compte;
+import springtpiai.siexpose.myExceptions.SoldeNegativeException;
 import springtpiai.siexpose.records.CompteOperationRequest;
 import springtpiai.siexpose.records.VirementCompteRequest;
 import springtpiai.siexpose.records.VirementCompteResponse;
@@ -60,17 +61,17 @@ public class CompteController {
         return  compteService.getCompteByTypeCompte(typeCompte);
     }
     @PostMapping("debiter")
-    public Compte debiterCompte(@RequestBody CompteOperationRequest request) throws InvalideNumCompteException {
+    public Compte debiterCompte(@RequestBody CompteOperationRequest request) throws InvalideNumCompteException, SoldeNegativeException, SoldeInsufisantException {
         return  compteService.debiterCompte(request.numCompte(),request.solde());
     }
     @PostMapping("crediter")
-    public Compte crediterCompte(@RequestBody CompteOperationRequest request) throws InvalideNumCompteException, SoldeInsufisantException {
+    public Compte crediterCompte(@RequestBody CompteOperationRequest request) throws InvalideNumCompteException, SoldeInsufisantException, SoldeNegativeException {
         return  compteService.crediterCompte(request.numCompte(),request.solde());
     }
     @PostMapping("virement")
-    public ResponseEntity<VirementCompteResponse> virement(@RequestBody VirementCompteRequest request) throws InvalideNumCompteException, SoldeInsufisantException {
+    public ResponseEntity<VirementCompteResponse> virement(@RequestBody VirementCompteRequest request) throws InvalideNumCompteException, SoldeInsufisantException, SoldeNegativeException {
         var rep = compteService.faireVirement(request.numCompteEmetteur(),request.numCompteRecepteur(),request.solde());
-        return new ResponseEntity(rep, HttpStatus.valueOf(200));
+        return new ResponseEntity<>(rep, HttpStatus.valueOf(200));
     }
 
 }

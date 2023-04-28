@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import springtpiai.siexpose.allEnums.Sexe;
 import springtpiai.siexpose.models.Client;
 import springtpiai.siexpose.models.Client;
+import springtpiai.siexpose.models.Compte;
 import springtpiai.siexpose.myExceptions.InvalideNumeroClientException;
 import springtpiai.siexpose.services.ClientService;
 
@@ -73,6 +74,10 @@ public class ClientController {
     @GetMapping("dateNaissance/{dateNaissance}")
     public Optional<List<Client>> getClientsByDateNaissance(@PathVariable LocalDate dateNaissance){
         return clientService.getClientByDateNaissance(dateNaissance);
+    }
+    @GetMapping("comptes/{clientId}")
+    public Optional<List<Compte>> getClientsCompte(@PathVariable Integer clientId){
+        return clientService.getClientCompte(clientId);
     }
 
 }
